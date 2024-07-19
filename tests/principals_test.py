@@ -60,3 +60,30 @@ def test_regrade_assignment(client, h_principal):
 
     assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
     assert response.json['data']['grade'] == GradeEnum.B
+
+
+def test_get_teachers(client, h_principal):
+    response = client.get(
+        '/principal/teachers',
+        headers=h_principal
+    )
+
+    assert response.status_code == 200
+
+
+def test_server(client):
+    response = client.get()
+
+    assert response.status_code == 200
+
+
+def test_principal_assignments_endpoint(client, h_principal):
+    """
+    success case: principal can access their assignments endpoint
+    """
+    response = client.get(
+        '/principal/assignments',
+        headers=h_principal
+    )
+
+    assert response.status_code == 200
